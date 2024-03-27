@@ -1,0 +1,35 @@
+from typing import List
+import heapq
+
+class Solution:
+    def findCity(self, n: int, m: int, edges: List[List[int]], distanceThreshold: int) -> int:
+        graph = {i: [] for i in range(n)}
+        for from_city, to_city, weight in edges:
+            graph[from_city].append((to_city, weight))
+            graph[to_city].append((from_city, weight))
+        
+        def dijkstra(source):
+            distances = [float('inf')] * n
+            distances[source] = 0
+            pq = [(0, source)]
+            while pq:
+                dist, node = heapq.heappop(pq)
+                if dist > distances[node]:
+                    continue
+                for neighbor, weight in graph[node]:
+                    if dist + weight < distances[neighbor]:
+                        distances[neighbor] = dist + weight
+                        heapq.heappush(pq, (dist + weight, neighbor))
+            return distances
+        
+        min_reachable = float('inf')
+        city = -1
+        
+        for i in range(n):
+            distances = dijkstra(i)
+            reachable_cities = sum(dist <= distanceThreshold for dist in distances)
+            if reachable_cities <= min_reachable:
+                min_reachable = reachable_cities
+                city = i
+        
+        return city
