@@ -1,0 +1,14 @@
+class Solution:
+    def isEularCircuitExist(self, v, adj):
+        # Function to check if every vertex has an even degree
+        def isEulerian(adj):
+            for edges in adj:
+                if len(edges) % 2 != 0:
+                    return False
+            return True
+
+        # Check if every vertex has an even degree
+        if isEulerian(adj):
+            return 1
+        else:
+            return 0
