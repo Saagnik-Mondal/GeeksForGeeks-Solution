@@ -1,0 +1,24 @@
+class Node:
+    """ Class Node """
+    def __init__(self, value):
+        self.left = None
+        self.key = value
+        self.right = None
+
+class Solution:
+    def findMaxForN(self, root, n):
+        result = -1  # Initialize the result to -1
+        
+        # Traverse the BST
+        while root is not None:
+            # If the current node's value is less than or equal to n,
+            # update the result and move to the right subtree
+            if root.key <= n:
+                result = root.key
+                root = root.right
+            # If the current node's value is greater than n,
+            # move to the left subtree
+            else:
+                root = root.left
+                
+        return result
